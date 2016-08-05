@@ -7,11 +7,11 @@
 	global $_SESSION;
 	
 	if(Auth\User::LoggedIn()) {
-		header("location: dashboard.php");
-		die("Redirecting to dashboard.php");
+		header("location: pages.php");
+		die("Redirecting to pages.php");
 	} else {
 		global $PAGE_CALL;
-		$PAGE_CALL 	= "login.php";
+		$PAGE_CALL 		= "auth/login.php";
 		$INCL_DIR 		= "php/pages/";
 		include($INCL_DIR. $PAGE_CALL);
 	}

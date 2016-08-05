@@ -1,30 +1,24 @@
 <?php
-	// Include everything
-	require("include.everything.php");
+	/* Test if the current page is called or loaded */ {
+		global $currentPageRAW;
+		define('PAGE_CURRENT', 'dashboard');
+		
+		// Called not loaded
+		if($currentPageRAW != PAGE_CURRENT) {
+			header("location: index.php");
+			die("redirecting to index.php");
+		}
+	}
 	
-	// TODO::FIGURE OUT AUTH
-	//		Keep the same as the phpWebAdmin or make my own storage
+	// Our page details
+	define("PAGE_Title", 		"Dashboard");
+	define("PAGE_Description", 	"Just a dashboard!");
 	
-	define("PAGE_Title", 		"Generated");
-	define("PAGE_Description", 	"Test");
+	// Start our template design
+	StartPage();
 	
-	// THIS MUST ALLWAYS HAPPEN
-	// EVERYTHING ELSE IS OPTIONAL
-	Base\Page::StartPage();
-	Base\Page::AutoAuthRedirect();
-	
-	
-	
-	echo Design\HTML\Framework::StartHTML();
-	echo Design\HTML\References::GetHead();
-	echo Design\HTML\Framework::StartBody();
-	echo Design\Template\Standard::Start();
-	
+	// Our server
 	global $obBaseApp;
-	
-	define("STSMTP", 1);
-	define("STPOP3", 3);
-	define("STIMAP", 5);
 ?>
 
 <div class="row tile_count">
@@ -45,27 +39,24 @@
 	</div>
 	<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
 		<span class="count_top"><i class="fa fa-user"></i> SMTP Sessions</span>
-		<div class="count"><?=$obBaseApp->Status->SessionCount(STSMTP);?></div>
+		<div class="count"><?=$obBaseApp->Status->SessionCount(HMS_ST_SMTP);?></div>
 		<span class="count_bottom"><i class="yellow"><i class="fa fa-sort-desc"></i>0% </i> From last Week</span>
 	</div>
 	<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
 		<span class="count_top"><i class="fa fa-user"></i> POP3 Sessions</span>
-		<div class="count"><?=$obBaseApp->Status->SessionCount(STPOP3);?></div>
+		<div class="count"><?=$obBaseApp->Status->SessionCount(HMS_ST_POP3);?></div>
 		<span class="count_bottom"><i class="yellow"><i class="fa fa-sort-asc"></i>0% </i> From last Week</span>
 	</div>
 	<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
 		<span class="count_top"><i class="fa fa-user"></i> IMAP Sessions</span>
-		<div class="count"><?=$obBaseApp->Status->SessionCount(STIMAP);?></div>
+		<div class="count"><?=$obBaseApp->Status->SessionCount(HMS_ST_IMAP);?></div>
 		<span class="count_bottom"><i class="yellow"><i class="fa fa-sort-asc"></i>0% </i> From last Week</span>
 	</div>
 </div>
 
 <?php 
-	echo Design\Template\Standard::End();
-	echo Design\HTML\References::GetScripts();
+	//Design\Navbar\Get::SetCurrent("dashboard");
 
-	echo Design\HTML\Framework::EndBody();
-	echo Design\HTML\Framework::EndHTML();
-	
-	Base\Page::EndPage();
+	// End our page
+	EndPage();
 ?>

@@ -1,41 +1,16 @@
 <?php
-	// Include everything
-	require("include.everything.php");
+	/* Test if the current page is called or loaded */ {
+		global $currentPageRAW;
+		
+		define('PAGE_CURRENT_SUB', 'domain->manage->account');
+		// Called not loaded
+		if($currentPageRAW != PAGE_CURRENT_SUB) {
+			header("location: index.php");
+			die("redirecting to index.php");
+		}
+	}
 	
-	// TODO::FIGURE OUT AUTH
-	//		Keep the same as the phpWebAdmin or make my own storage
-	
-	define("PAGE_Title", 		"Generated");
-	define("PAGE_Description", 	"Test");
-	
-	// THIS MUST ALLWAYS HAPPEN
-	// EVERYTHING ELSE IS OPTIONAL
-	Base\Page::StartPage();
-	Base\Page::AutoAuthRedirect();
-	
-	
-	
-	echo Design\HTML\Framework::StartHTML();
-	echo Design\HTML\References::GetHead();
-	echo Design\HTML\Framework::StartBody();
-	echo Design\Template\Standard::Start();
-	
-	global $obBaseApp;
-	
-	define("STSMTP", 1);
-	define("STPOP3", 3);
-	define("STIMAP", 5);
-	
-	global $obBaseApp;
-	
-	$cDomain = $obBaseApp->Domains->ItemByDBID($_GET['did']);
-	$user	 = $cDomain->Accounts->ItemByDBID($_GET['acid']);
-	
-	$email = $user->Address;
-	$default = "https://www.gravatar.com/avatar/2e629e2c14ee06cf4d546a4a0c1dfe4c?d=callumcarmicheal%40gmail.com&s=224";
-	$size = 224;
-	$grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
-
+	$grav_url = Gravatar($user->Address);
 ?>
 	
 <div class="col-md-12">
@@ -86,27 +61,30 @@
 										<div class="col-md-4 col-sm-6 col-xs-8 tile_stats_count">
 											<span class="count_top"><i class="fa fa-clock-o"></i> Max Size</span>
 											<div class="count"><?=$user->MaxSize?></div>
-											<span class="count_bottom"><i class="yellow"><i class="fa fa-sort-asc"></i>0% </i> From last Week</span>
+											<span class="count_bottom">Total in MB</span>
 										</div>
 										<div class="col-md-4 col-sm-6 col-xs-8 tile_stats_count">
 											<span class="count_top"><i class="fa fa-clock-o"></i> Quota Used</span>
 											<div class="count"><?=$user->QuotaUsed?>%</div>
-											<span class="count_bottom"><i class="yellow"><i class="fa fa-sort-asc"></i>0% </i> From last Week</span>
+											<span class="count_bottom"><i class="yellow">0% </i> From last Week</span>
 										</div>
+									</div>
+									
+									<div class="row tile_count">
 										<div class="col-md-4 col-sm-6 col-xs-8 tile_stats_count">
 											<span class="count_top"><i class="fa fa-user"></i> SMTP Sessions</span>
-											<div class="count"><?=$obBaseApp->Status->SessionCount(STSMTP);?></div>
-											<span class="count_bottom"><i class="yellow"><i class="fa fa-sort-desc"></i>0% </i> From last Week</span>
+											<div class="count">0</div>
+											<span class="count_bottom"><i class="yellow">0% </i> From last Week</span>
 										</div>
 										<div class="col-md-4 col-sm-6 col-xs-8 tile_stats_count">
 											<span class="count_top"><i class="fa fa-user"></i> POP3 Sessions</span>
-											<div class="count"><?=$obBaseApp->Status->SessionCount(STPOP3);?></div>
-											<span class="count_bottom"><i class="yellow"><i class="fa fa-sort-asc"></i>0% </i> From last Week</span>
+											<div class="count">0</div>
+											<span class="count_bottom"><i class="yellow">0% </i> From last Week</span>
 										</div>
 										<div class="col-md-4 col-sm-6 col-xs-8 tile_stats_count">
 											<span class="count_top"><i class="fa fa-user"></i> IMAP Sessions</span>
-											<div class="count"><?=$obBaseApp->Status->SessionCount(STIMAP);?></div>
-											<span class="count_bottom"><i class="yellow"><i class="fa fa-sort-asc"></i>0% </i> From last Week</span>
+											<div class="count">0</div>
+											<span class="count_bottom"><i class="yellow">0% </i> From last Week</span>
 										</div>
 									</div>
 								</ul>
@@ -122,13 +100,3 @@
 		</div>
 	</div>
 </div>
-
-<?php 
-	echo Design\Template\Standard::End();
-	echo Design\HTML\References::GetScripts();
-
-	echo Design\HTML\Framework::EndBody();
-	echo Design\HTML\Framework::EndHTML();
-	
-	Base\Page::EndPage();
-?>

@@ -13,10 +13,10 @@
 		$passExists = false;
 		
 		// Check for username and password
-		if(!empty($_POST['username'])) 
-			$userExists = true;
-		if(!empty($_POST['password'])) 
-			$passExists = true;
+		if(!empty($_POST['username']))  		$userExists = true;
+		if(!empty($_POST['password']))  		$passExists = true;
+		if(strlen($_POST['username']) == 0)  	$userExists = false;
+		if(strlen($_POST['password']) == 0)  	$userExists = false;
 			
 		if($userExists & $passExists) {
 			// Store into session
@@ -46,9 +46,12 @@
 			
 			header("location: index.php");
 			die	  ("Login Success: redirecting to index.php");
+		} else {
+			header("location: index.php?errid=2");
+			die("One of the fields were invalid : Redirecting to index.php");
 		}
 	}
 	
 	
-	//header("location: index.php");
-	die("Redirecting [0] to index.php");
+	header("location: index.php?errid=1");
+	die("Redirecting INVAL to index.php?errid=1");

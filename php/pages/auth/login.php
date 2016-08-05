@@ -3,7 +3,7 @@
 	if(!isset($PAGE_CALL) && empty($PAGE_CALL)) {
 		header("HTTP/1.0 404 Not Found");
 		die("");
-	} else if($PAGE_CALL != "login.php") {
+	} else if($PAGE_CALL != "auth/login.php") {
 		header("HTTP/1.0 404 Not Found");
 		die("");
 	}
@@ -43,11 +43,17 @@
 						$errorID = $_GET['errid'];
 						
 						if($errorID == "1"): ?>
-						<div class="alert alert-error alert-dismissible fade in" role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-							</button>
-							<strong>Attention!</strong> The creditentials you supplied were invalid!
-						</div>
+							<div class="alert alert-error alert-dismissible fade in" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+								</button>
+								<strong>Attention!</strong> The creditentials you supplied were invalid!
+							</div>
+			<?php		endif; if($errorID == "2"): ?>		
+							<div class="alert alert-warning alert-dismissible fade in" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+								</button>
+								<strong>INVALID!</strong> The creditentials were formatted incorrently (BLANK, WHITESPACE ETC...)!
+							</div>
 			<?php		endif;
 					
 					endif; ?>
@@ -57,7 +63,7 @@
 							<h1>Login</h1>
 							 
 							<div> <input type="text" 	 name="username" class="form-control" placeholder="Username" required="" /> </div>
-							<div> <input type="password" name="password" class="form-control" placeholder="Password" required="" /> </div>
+							<div> <input type="password" name="password" class="form-control submit_on_enter" placeholder="Password" required="" /> </div>
 							<div> <a onclick="document.getElementById('loginForm').submit();" class="btn btn-default submit" type="button" style="width: 100%;">Log in</a> </div>
 							<br>
 							
@@ -73,6 +79,18 @@
 				</div>
 			</div>
 		</div>
-		</div>
+		
+		
+		<script src="res/vendors/jquery/dist/jquery.min.js"></script>
+		<script>
+		$(document).ready(function() {
+			$('.submit_on_enter').keydown(function(event) {
+				if (event.keyCode == 13) {
+					this.form.submit();
+					return false;
+				}
+			});
+		});
+		</script>
 	</body>
 </html>

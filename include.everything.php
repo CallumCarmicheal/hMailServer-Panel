@@ -47,15 +47,12 @@
 		}
 	}
 	
-	
-	
 	function IncludeEveryDependancy() {
 		$dirs = array(
 			'config',
 			'auth',
 			'base',
-			'design',
-			'include'
+			'design'
 		); foreach($dirs as $str) {
 			_require_all("php/". $str);
 		}
